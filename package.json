@@ -2,9 +2,14 @@
   "name": "l1.borjaprogrammeraigen",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "browser": "src/js/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
   },
   "repository": {
     "type": "git",
@@ -25,5 +30,8 @@
     "eslint-plugin-jsdoc": "^46.5.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1"
+  },
+  "dependencies": {
+    "vite": "^4.4.9"
   }
 }

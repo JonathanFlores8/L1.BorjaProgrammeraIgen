@@ -1,0 +1,1 @@
+import './greetings-component.js'
