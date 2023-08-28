@@ -1,7 +1,7 @@
 const template = document.createElement('template')
 
 template.innerHTML = `
-  <style>
+   <style>
     .inputForm {
       display: flex;
       flex-direction: column;
@@ -43,12 +43,25 @@ template.innerHTML = `
       font-size: 1.2rem;
       text-align: center;
     }
+    .error {
+      color: red;
+      display: none;
+      font-size: 0.8rem;
+    }
+    .inputForm button:disabled {
+      background-color: #b0b0b0;
+      cursor: not-allowed;
+    }
+    .inputForm button:focus {
+      box-shadow: 0 0 5px #007aff;
+    }
   </style>
 
-  <form class="inputForm">
+<form class="inputForm">
     <label for="name">Name:</label>
-    <input id="name" type="text">
-    <button type="submit">Submit</button>
+    <input id="name" type="text" placeholder="Enter your name">
+    <div class="error">Please enter your name.</div>
+    <button type="submit" disabled>Submit</button>
   </form>
   <div class="greeting"></div>
 `
@@ -58,7 +71,6 @@ template.innerHTML = `
  */
 class GreetingsComponent extends HTMLElement {
   /**
-   * 
    *
    */
   constructor () {
@@ -71,21 +83,41 @@ class GreetingsComponent extends HTMLElement {
    *
    */
   connectedCallback () {
-    const form = this.shadowRoot.querySelector('.inputForm')
-    const greeting = this.shadowRoot.querySelector('.greeting')
+    this.nameInput = this.shadowRoot.querySelector('#name')
+    this.greeting = this.shadowRoot.querySelector('.greeting')
+    this.error = this.shadowRoot.querySelector('.error')
+    this.submitButton = this.shadowRoot.querySelector('button')
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault()
-      const nameInput = this.shadowRoot.querySelector('#name')
-      const name = nameInput.value.trim()
+    this.nameInput.addEventListener('input', this.handleInput.bind(this))
+    this.shadowRoot.querySelector('.inputForm').addEventListener('submit', this.handleSubmit.bind(this))
+  }
 
-      if (name) {
-        greeting.textContent = `Hello ${name}, welcome back to programming.`
-        greeting.style.display = 'block'
-      } else {
-        greeting.style.display = 'none'
-      }
-    })
+  /**
+   *
+   */
+  handleInput () {
+    if (this.nameInput.value.trim()) {
+      this.submitButton.disabled = false
+      this.error.style.display = 'none'
+    } else {
+      this.submitButton.disabled = true
+    }
+  }
+
+  /**
+   *
+   * @param e
+   */
+  handleSubmit (e) {
+    e.preventDefault()
+    const name = this.nameInput.value.trim()
+    if (name) {
+      this.greeting.textContent = `Hello ${name}, welcome back to programming.`
+      this.greeting.style.display = 'block'
+    } else {
+      this.greeting.style.display = 'none'
+      this.error.style.display = 'block'
+    }
   }
 }
 
