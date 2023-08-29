@@ -55,11 +55,23 @@ template.innerHTML = `
     .inputForm button:focus {
       box-shadow: 0 0 5px #007aff;
     }
+    @keyframes barrelRoll {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .barrelRollEffect {
+    animation: barrelRoll 1s linear;
+  }
   </style>
 
 <form class="inputForm">
     <label for="name">Name:</label>
-    <input id="name" type="text" placeholder="Enter your name">
+    <input id="name" type="text" placeholder="Enter your name...">
     <div class="error">Please enter your name.</div>
     <button type="submit" disabled>Submit</button>
   </form>
@@ -67,7 +79,7 @@ template.innerHTML = `
 `
 
 /**
- *
+ * GreetingsComponent
  */
 class GreetingsComponent extends HTMLElement {
   /**
@@ -114,6 +126,11 @@ class GreetingsComponent extends HTMLElement {
     if (name) {
       this.greeting.textContent = `Hello ${name}, welcome back to programming.`
       this.greeting.style.display = 'block'
+      this.greeting.classList.add('barrelRollEffect')
+
+      setTimeout(() => {
+        this.greeting.classList.remove('barrelRollEffect')
+      }, 1000)
     } else {
       this.greeting.style.display = 'none'
       this.error.style.display = 'block'
