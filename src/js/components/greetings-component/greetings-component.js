@@ -69,6 +69,11 @@ template.innerHTML = `
   }
   </style>
 
+<audio id="myAudio">
+  <source src="../audio/barrel.mp3" type="audio/mp3">
+</audio>
+
+
 <form class="inputForm">
     <label for="name">Name:</label>
     <input id="name" type="text" placeholder="Enter your name...">
@@ -122,8 +127,10 @@ class GreetingsComponent extends HTMLElement {
    */
   handleSubmit (e) {
     e.preventDefault()
+    const audio = this.shadowRoot.querySelector('#myAudio')
     const name = this.nameInput.value.trim()
     if (name) {
+      audio.play()
       this.greeting.textContent = `Hello ${name}, welcome back to programming.`
       this.greeting.style.display = 'block'
       this.greeting.classList.add('barrelRollEffect')
